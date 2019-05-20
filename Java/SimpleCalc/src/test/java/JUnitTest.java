@@ -5,4 +5,4 @@ import cucumber.api.junit.Cucumber;
 @RunWith(Cucumber.class)
 @CucumberOptions(features= "src/test/features"
 )
-public class JUnitRunner {}
+public class JUnitTest {}
