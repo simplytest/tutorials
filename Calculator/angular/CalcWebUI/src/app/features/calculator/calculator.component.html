@@ -1,0 +1,53 @@
+
+
+<div class="container">
+
+  <div style="border-top: 1px solid silver; padding-bottom:20px;"></div>
+    
+  <div class="row calc-row" style= "padding-bottom:40px;">
+    <div style= "padding-top:6px; font-weight: 600" class="col-2">Operation: </div>
+    <div class="col-9">
+      <div class="btn-group" role="group" aria-label="Operation" style="width:50%">
+        <button type="button" class="btn btn-secondary" (click)="calcData.Operation=0;">Multiplication</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row calc-row">
+    <div class="col-2">
+      <label class="label label-primary" for="operand_A">Operand A:</label>
+    </div>
+    <div class="col-9">
+      <input name="operand_A" placeholder="Value of operand A" [(ngModel)]="calcData.Operand1" style="width:50%"/>
+    </div>
+  </div>
+
+  <div class="row calc-row">
+    <div class="col-2">
+      <label for="operand_B">Operand B:</label>
+    </div>
+    <div class="col-9">
+      <input name="operand_B" placeholder="Value of operand B" [(ngModel)]="calcData.Operand2" style="width:50%"/>
+    </div>
+  </div>
+
+
+  <div class="row calc-row">
+      <div class="col-2">
+        <label for="result">Result:</label>
+      </div>
+      <div class="col-9">
+        <div name="result" style="width:50%">{{result}}</div>
+      </div>
+  </div>
+
+  <div class="row calc-row">
+      <div class="col-2">
+      </div>
+      <div class="col-9">
+        <button class="btn btn-primary" (click)="calculate()" style="width:50%">Calculate</button>
+      </div>
+  </div>
+
+
+</div>
