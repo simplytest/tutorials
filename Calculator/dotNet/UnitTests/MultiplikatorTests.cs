@@ -6,6 +6,7 @@ namespace UnitTests
     public class MultiplikatorTests
     {
         [TestMethod]
+        [TestCategory("Unit Test")]
         public void TestPositiveMult()
         {
             // 1. Input
@@ -24,6 +25,7 @@ namespace UnitTests
         }
 
         [TestMethod]
+        [TestCategory("Unit Test")]
         public void TestNegativeMult()
         {
             // 1. Input
@@ -42,6 +44,7 @@ namespace UnitTests
         }
 
         [TestMethod]
+        [TestCategory("Unit Test")]
         public void TestZeroMult()
         {
             // 1. Input

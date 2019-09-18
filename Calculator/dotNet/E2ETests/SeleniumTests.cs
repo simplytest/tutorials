@@ -12,11 +12,17 @@ namespace E2ETests
     {
         private IWebDriver _driver = null;
 
-        private string _appURL = "http://localhost:8080/index.html"; 
+        private string _appURL = "http://localhost:8080/index.html";
+
+        private TestContext _testContext;
+        public TestContext TestContext { get { return _testContext; } set { _testContext = value; } }
 
         [TestInitialize]
         public void InitTest()
         {
+            if (TestContext.Properties.ContainsKey("webAppURL"))
+                _appURL = TestContext.Properties["webAppURL"].ToString();
+
             _driver = new ChromeDriver(Environment.CurrentDirectory);
         }
 
@@ -28,6 +34,7 @@ namespace E2ETests
         }
 
         [TestMethod]
+        [TestCategory("E2E Test")]
         public void TestValidCalculation()
         {
             _driver.Navigate().GoToUrl(_appURL);
@@ -53,6 +60,7 @@ namespace E2ETests
         }
 
         [TestMethod]
+        [TestCategory("E2E Test")]
         public void TestInvalidCalculation()
         {
             _driver.Navigate().GoToUrl(_appURL);
