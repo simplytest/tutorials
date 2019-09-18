@@ -8,7 +8,7 @@
     <div style= "padding-top:6px; font-weight: 600" class="col-2">Operation: </div>
     <div class="col-9">
       <div class="btn-group" role="group" aria-label="Operation" style="width:50%">
-        <button type="button" class="btn btn-secondary" (click)="calcData.Operation=0;">Multiplication</button>
+        <button name="opMult" type="button" class="btn btn-secondary" (click)="calcData.Operation=0;">Multiplication</button>
       </div>
     </div>
   </div>
@@ -37,7 +37,8 @@
         <label for="result">Result:</label>
       </div>
       <div class="col-9">
-        <div name="result" style="width:50%">{{result}}</div>
+        <div  *ngIf="!calcInProgress" name="result" style="width:50%">{{result}}</div>
+				<mat-spinner *ngIf="calcInProgress" mode="indeterminate" diameter="30" style="margin-left: 23%;"></mat-spinner>
       </div>
   </div>
 
@@ -45,7 +46,7 @@
       <div class="col-2">
       </div>
       <div class="col-9">
-        <button class="btn btn-primary" (click)="calculate()" style="width:50%">Calculate</button>
+        <button [disabled]="calcInProgress" name="calculate" class="btn btn-primary" (click)="calculate()" style="width:50%">Calculate</button>
       </div>
   </div>
 

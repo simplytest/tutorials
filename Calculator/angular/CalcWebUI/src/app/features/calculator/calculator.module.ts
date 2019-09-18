@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CalculatorComponent } from './calculator.component';
+//import { CalculatorComponent } from './calculator.component';
 
 @NgModule({
-  declarations: [CalculatorComponent],
+  declarations: [],
   imports: [
     CommonModule
   ]

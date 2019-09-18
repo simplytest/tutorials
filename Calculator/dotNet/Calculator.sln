@@ -32,6 +32,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "CalcWebUI", "..\angular\Cal
 		SlnRelativePath = "..\angular\CalcWebUI\"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E2ETests", "E2ETests\E2ETests.csproj", "{2F4B418B-CC9E-4AE8-B4F2-4ADA4319F5F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{919648F9-E898-4D68-8CF0-27877E188FFB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AAB3E5BC-A1FB-4C66-AF58-D43E7625041B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AAB3E5BC-A1FB-4C66-AF58-D43E7625041B}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F4B418B-CC9E-4AE8-B4F2-4ADA4319F5F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F4B418B-CC9E-4AE8-B4F2-4ADA4319F5F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F4B418B-CC9E-4AE8-B4F2-4ADA4319F5F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F4B418B-CC9E-4AE8-B4F2-4ADA4319F5F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CalculatorService } from './calculator.service';
 import { CalcData } from './calcdata';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-calculator',
@@ -10,10 +11,10 @@ import { CalcData } from './calcdata';
 export class CalculatorComponent implements OnInit {
 
   public result: number;
-
   public calcData: CalcData;
+  public calcInProgress: boolean = false;
 
-  constructor(private calcService:CalculatorService) { 
+  constructor(private calcService:CalculatorService, private toastr: ToastrService) { 
     this.calcData = new  CalcData();
 
   }
@@ -24,9 +25,15 @@ export class CalculatorComponent implements OnInit {
 
 
   public async calculate(){
-    console.log("Calc " + this.calcData.Operand1 + " " + this.calcData.Operand2);
-
-    this.result = await this.calcService.multiply(this.calcData).toPromise();
+    try {
+      this.calcInProgress = true;
+      this.result = await this.calcService.calculate(this.calcData).toPromise();
+      this.calcInProgress = false;
+    }
+    catch (e) {
+      this.calcInProgress = false;
+      this.toastr.error(e, 'Calculation failed');
+    }  
   }
 
 }
