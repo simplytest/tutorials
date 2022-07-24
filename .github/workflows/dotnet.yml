@@ -19,7 +19,7 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./RestAssuredExamples/uebungen/uebungen.csproj
     - name: Build
       run: dotnet build ./RestAssuredExamples/uebungen/uebungen.csproj --no-restore
     - name: Test
