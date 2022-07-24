@@ -27,23 +27,15 @@ jobs:
     - name: Upload dotnet test results
       uses: actions/upload-artifact@v3
       with:
-        name: dotnet-results
+        name: restassured-dotnet-results
         path: TestResults
       if: ${{ always() }}
       
-    - name: Execute Postman Newman Test Run
-      uses: matt-ball/newman-action@master
-      with:
-        collection: ./RestAssuredExamples/postman_CI_Tests.postman_collection.json
-        environment: ./RestAssuredExamples/postman_Test Environment 1.postman_environment.json
-        reporters: '["junit"]'
-
-      
-    - name: Test Report
+    - name: RestAssured Test Report
       uses: dorny/test-reporter@v1
       if: ${{ always() }}
       with:
-        name: .NET Tests            
+        name: RestAssured .NET Test Report            
         path: TestResults/*.trx
         reporter: dotnet-trx
 
@@ -61,10 +53,10 @@ jobs:
       run: |
           newman run "./RestAssuredExamples/postman_CI_Tests.postman_collection.json" -e "./RestAssuredExamples/postman_Test Environment 1.postman_environment.json" -r cli,junit --reporter-junit-export "./RestAssuredExamples/TestResults/postman_junit_results.xml"
           
-    - name: Test Report
+    - name: Postman Test Report
       uses: dorny/test-reporter@v1
       if: ${{ always() }}
       with:
-        name: .Postman Tests            
+        name: Postman Test Report            
         path: ./RestAssuredExamples/TestResults/*.xml
         reporter: java-junit          
