@@ -31,10 +31,40 @@ jobs:
         path: TestResults
       if: ${{ always() }}
       
+    - name: Execute Postman Newman Test Run
+      uses: matt-ball/newman-action@master
+      with:
+        collection: ./RestAssuredExamples/postman_CI_Tests.postman_collection.json
+        environment: ./RestAssuredExamples/postman_Test Environment 1.postman_environment.json
+        reporters: '["junit"]'
+
+      
     - name: Test Report
       uses: dorny/test-reporter@v1
       if: ${{ always() }}
       with:
         name: .NET Tests            
-        path: TestResults/*.trx    # Path to test results
+        path: TestResults/*.trx
         reporter: dotnet-trx
+
+
+    - name: Install Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: "12.x"
+
+    - name: Install newman
+      run: |
+          npm install -g newman
+          
+    - name: Run POSTMAN collection
+      run: |
+          newman run "postman_CI_Tests.postman_collection.json" -e "postman_Test Environment 1.postman_environment.json" -r cli,junit --reporter-junit-export "TestResults/postman_junit_results.xml"
+          
+    - name: Test Report
+      uses: dorny/test-reporter@v1
+      if: ${{ always() }}
+      with:
+        name: .Postman Tests            
+        path: TestResults/*.xml
+        reporter: java-junit          
