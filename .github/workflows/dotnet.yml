@@ -66,5 +66,5 @@ jobs:
       if: ${{ always() }}
       with:
         name: .Postman Tests            
-        path: TestResults/*.xml
+        path: ./RestAssuredExamples/TestResults/*.xml
         reporter: java-junit          
