@@ -58,7 +58,8 @@ jobs:
           npm install -g newman
           
     - name: Run POSTMAN collection
-      run: ./RestAssuredExamples/postman_run_CI.bat
+      run: |
+          newman run "./RestAssuredExamples/postman_CI_Tests.postman_collection.json" -e "./RestAssuredExamples/postman_Test Environment 1.postman_environment.json" -r cli,junit --reporter-junit-export "./RestAssuredExamples/TestResults/postman_junit_results.xml"
           
     - name: Test Report
       uses: dorny/test-reporter@v1
