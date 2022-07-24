@@ -1,0 +1,326 @@
+{
+	"info": {
+		"_postman_id": "688cae53-10ca-4043-b904-2ad4be306c02",
+		"name": "DemoShop Tests Regression",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "GetProductList",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "58cc6dca-e5b0-43d1-b8ff-084041e71857",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains products\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"products\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains product_url\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"product_url\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SHOP_URL}}/shop/products/",
+							"host": [
+								"{{SHOP_URL}}"
+							],
+							"path": [
+								"shop",
+								"products",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateProduct",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0bbdf3f7-aa8f-47ff-99e3-d3a17cf4d33e",
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains expected product name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql( pm.variables.get(\"product_name\") );\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains expected product url\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.product_url).to.contains(\"/shop/products/\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"{{product_name}}\",\r\n  \"price\": {{product_price}},\r\n  \"category_url\": \"/shop/categories/Fruits\",\r\n  \"vendor_url\": \"/shop/vendors/32\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{SHOP_URL}}/shop/products/",
+							"host": [
+								"{{SHOP_URL}}"
+							],
+							"path": [
+								"shop",
+								"products",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateProduct",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d2ee5c90-c2c6-42f9-96c0-925b8d030cd4",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains renamed product\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(\"UpdatedDemo0\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "9e711e6b-b7ea-4b6d-a126-13ef478542b5",
+								"exec": [
+									"// Prepare a request specification for creation of a new product\r",
+									"const prepareNewPproductPostRequest = {\r",
+									"    url: 'https://api.predic8.de:443/shop/products/',\r",
+									"    method: 'POST',\r",
+									"    header: 'Content-Type:application/json',\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify\r",
+									"        (\r",
+									"            {\r",
+									"                \"name\": \"Product for update\",\r",
+									"                \"price\": 4.99,\r",
+									"                \"category_url\": \"/shop/categories/Fruits\",\r",
+									"                \"vendor_url\": \"/shop/vendors/32\"\r",
+									"            }\r",
+									"        )\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"// Send above request to create a new product\r",
+									"pm.sendRequest(prepareNewPproductPostRequest, function (err, res) {\r",
+									"    // Extract the ID of the newly created product from the JSON response\r",
+									"    var newprodID = res.json().product_url.replace(\"/shop/products/\", \"\");\r",
+									"    // store the extracted ID in a global Postman variable, for a later usage as a placeholder in the URL of the main request\r",
+									"    pm.variables.set(\"prodID\", newprodID);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"UpdatedDemo0\",\r\n  \"price\": 5.99,\r\n  \"category_url\": \"/shop/categories/Fruits\",\r\n  \"vendor_url\": \"/shop/vendors/32\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{SHOP_URL}}/shop/products/{{prodID}}",
+							"host": [
+								"{{SHOP_URL}}"
+							],
+							"path": [
+								"shop",
+								"products",
+								"{{prodID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteProduct",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f3ef798c-abd5-49b8-983d-7cbb207bba77",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Prepare request to retrieve a specific product\r",
+									"const prepareProdDetailsRequest = {\r",
+									"    url: 'https://api.predic8.de:443/shop/products/' + pm.variables.get(\"prodID\"),\r",
+									"    method: 'GET'\r",
+									"};\r",
+									"\r",
+									"// Send request to retrieve a specific product\r",
+									"pm.sendRequest(prepareProdDetailsRequest, function (err, res) {\r",
+									"    // Response should return status code 404 (Not Found)\r",
+									"    pm.test(\"Product no more accessible\", function () {\r",
+									"         pm.expect(res.code).to.be.eql(404);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4f1a2229-b8b3-481b-a98a-8a6d3cc125be",
+								"exec": [
+									"// Prepare a request specification for creation of a new product\r",
+									"const prepareNewPproductPostRequest = {\r",
+									"    url: 'https://api.predic8.de:443/shop/products/',\r",
+									"    method: 'POST',\r",
+									"    header: 'Content-Type:application/json',\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify\r",
+									"        (\r",
+									"            {\r",
+									"                \"name\": \"Product for update\",\r",
+									"                \"price\": 4.99,\r",
+									"                \"category_url\": \"/shop/categories/Fruits\",\r",
+									"                \"vendor_url\": \"/shop/vendors/32\"\r",
+									"            }\r",
+									"        )\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"// Send above request to create a new product\r",
+									"pm.sendRequest(prepareNewPproductPostRequest, function (err, res) {\r",
+									"    // Extract the ID of the newly created product from the JSON response\r",
+									"    var newprodID = res.json().product_url.replace(\"/shop/products/\", \"\");\r",
+									"    // store the extracted ID in a global Postman variable, for a later usage as a placeholder in the URL of the main request\r",
+									"    pm.variables.set(\"prodID\", newprodID);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{SHOP_URL}}/shop/products/{{prodID}}",
+							"host": [
+								"{{SHOP_URL}}"
+							],
+							"path": [
+								"shop",
+								"products",
+								"{{prodID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Vendors",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "B2B",
+					"item": [],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "B2C",
+					"item": [],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "a8645220-5975-4e35-b79e-12cb78d46c40",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "edfdc6a2-a4e6-44f3-a876-744153c044c1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "20652b26-9e9c-4436-ae79-fecc80f2a578",
+			"key": "product_name",
+			"value": "Demo_Collection"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
